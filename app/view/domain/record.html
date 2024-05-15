@@ -314,6 +314,12 @@ function initLine(option, elem){
 	})
 	$("#"+elem).append('<select name="line" class="form-control" onchange="changeLine(this, \''+elem+'\')">'+option+'</select>');
 }
+
+function getQueryParam(name) {
+	var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+	return (results !== null) ? decodeURIComponent(results[1]) || '' : '';
+}
+
 function changeLine(obj, elem){
 	var line = $(obj).val();
 	var flag = false;
@@ -334,11 +340,12 @@ function changeLine(obj, elem){
 	}
 }
 function addframe(){
+	var keyword = getQueryParam('keyword');  // 获取keyword参数
 	$("#modal-store").modal('show');
 	$("#modal-title").html("添加记录");
 	$("#form-store input[name=action]").val("add");
 	$("#form-store input[name=recordid]").val('');
-	$("#form-store input[name=name]").val('');
+	$("#form-store input[name=name]").val(keyword);  // 设置keyword值到输入框
 	$("#form-store select[name=type]").val('A');
 	$("select[name=type]").change();
 	initLine();
